@@ -1,28 +1,29 @@
 # CS530_Assignment_2
 This will create an assembler for the SIC/XE family of machines, which converts assembler source files into assembled listing files.
 
-# RESEARCH FOR ASSIGNMENT #2
+## RESEARCH FOR ASSIGNMENT #2
 What is a SYMTAB?
 -> A SYMTAB (Symbol Table) is a data structure used to keep track of symbols (labels) and their corressponding memory addresses or values.
 
 How do we generate a SMYTAB?
 1. Parse the source code
-   -> Read the source file, identify the labels, instructions, and operands (the value/quantity associated with the instruction)
+   1. Read the source file, identify the labels, instructions, and operands (the value/quantity associated with the instruction)
 2. Add information to the table
-   -> When a label is encountered alongside its address or value, add it to the SYMTAB (Ex: "LABEL1 RESW 1" // "LABEL1" is the symbol, and "RESW 1" tells us one word of memory is to be allocated. The assembler would record "LABEL1" in the SYMTAB with its coressponding memory address)
+   1. When a label is encountered alongside its address or value, add it to the SYMTAB (Ex: "LABEL1 RESW 1" // "LABEL1" is the symbol, and "RESW 1" tells us one word of memory is to be allocated. The assembler would record "LABEL1" in the SYMTAB with its coressponding memory address)
 3. Example SYMTAB:
-   SYMBOL | ADDRESS
-   =--------------=
-   START    0000
-   LABEL1   0003
-   LABEL2   0006
+
+| SYMBOL | ADDRESS |
+| ---    | ---  |
+| START  | 0000 |
+| LABEL1 | 0003 |
+| LABEL2 | 0006 |
 
 Which assembler directives are processed during each pass?
 -> During pass one, information is collected by the assembler about each directive in preparing for the second pass
 -> The second pass is where the actual object code generation and address calculation is resolved
 
-Other Questions:
-What is an intermediate file?
-What is a listing file?
-How to generate object code?
-What does it mean to process BYTES/WORDS?
+## Other Questions:
+- What is an intermediate file?
+- What is a listing file?
+- How to generate object code?
+- What does it mean to process BYTES/WORDS?
