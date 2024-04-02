@@ -19,11 +19,18 @@ How do we generate a SMYTAB?
 | LABEL2 | 0006 |
 
 Which assembler directives are processed during each pass?
--> During pass one, information is collected by the assembler about each directive in preparing for the second pass
--> The second pass is where the actual object code generation and address calculation is resolved
+1. During pass one, information is collected by the assembler about each directive in preparing for the second pass
+2.  The second pass is where the actual object code generation and address calculation is resolved
+3.  We will likely only be processing the START directive in pass one
+
+What is an intermediate file? What is A listing file?
+1. An intermediate file is a temporary file that contained the processed information that was parsed during the first pass. It is a rough draft of the final listing file. It will most likely contain the memory address of each instruction (first column), the label (if exists), the opcode/directive itself (next column), operand (if exists), and any other information that was processed during pass one. This will be the file that will be used as input during the second pass.
+2. The second pass then uses this intermediate file as input to generate the listing final (the final draft)
+3. The listing file, simply put, looks like the original SIC source file, but with the memory addresses and object code added
+
+What does it mean to process BYTE/WORD directives?
+1. The BYTE and WORD directives are used to allocate space in memory and define the initial values of data in the program. (Syntax Structure: "LABEL BYTE <data>") Note: BYTE also has flags to indicate data format. C = Character, X = Hexadecimal, B = Binary, D = Decimal, O = Octal
+2. When processing these directives: calculate the size of the data, reserve memory space, and initialize the allocated memory with the specified data values
 
 ## Other Questions:
-- What is an intermediate file?
-- What is a listing file?
 - How to generate object code?
-- What does it mean to process BYTES/WORDS?
