@@ -3,6 +3,7 @@
 
 //? Should this loop over every line in the input file?
 void pass_1() {
+    //Loop over every line in the document
     //call instruction_formats(input_file)
     //call instruction_addresses(input_file)
     //call calc_symtab(input_file)
