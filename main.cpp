@@ -3,10 +3,13 @@
 //Includes
 #include "Assembler.h"
 
+//TODO: Flesh out
 int main(int argc, const char *argv[]) {
-    validate_input(argc, argv); //TODO: Flesh out
-    pass_1(); //TODO: Flesh out
-    //call pass_2();
+    validate_input(argc, argv);
+    //Loop over every Document passed in
+        //Create input and output file objects
+        pass_1(/*inputFIle*/);
+        //call pass_2();
     return 0;
 }
 

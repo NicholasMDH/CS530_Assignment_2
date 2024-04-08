@@ -3,3 +3,6 @@
 void validate_input(int arguments, const char *argumentList[]);
 void pass_1();
 void pass_2();
+
+void checkForComments();
+void instruction_formats();

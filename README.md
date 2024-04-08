@@ -2,8 +2,9 @@
 This will create an assembler for the SIC/XE family of machines, which converts assembler source files into assembled listing files.
 
 ## RESEARCH FOR ASSIGNMENT #2
+
 What is a SYMTAB?
--> A SYMTAB (Symbol Table) is a data structure used to keep track of symbols (labels) and their corressponding memory addresses or values.
+- A SYMTAB (Symbol Table) is a data structure used to keep track of symbols (labels) and their corressponding memory addresses or values.
 
 How do we generate a SMYTAB?
 1. Parse the source code
@@ -29,8 +30,15 @@ What is an intermediate file? What is A listing file?
 3. The listing file, simply put, looks like the original SIC source file, but with the memory addresses and object code added
 
 What does it mean to process BYTE/WORD directives?
-1. The BYTE and WORD directives are used to allocate space in memory and define the initial values of data in the program. (Syntax Structure: "LABEL BYTE <data>") Note: BYTE also has flags to indicate data format. C = Character, X = Hexadecimal, B = Binary, D = Decimal, O = Octal
+1. The BYTE and WORD directives are used to allocate space in memory and define the initial values of data in the program. (Syntax Structure: "LABEL BYTE \<data\>") Note: BYTE also has flags to indicate data format. C = Character, X = Hexadecimal, B = Binary, D = Decimal, O = Octal
 2. When processing these directives: calculate the size of the data, reserve memory space, and initialize the allocated memory with the specified data values
 
 ## Other Questions:
 - How to generate object code?
+- What about the LITTAB? (Literal Tab)
+- What do the "+" and "#" symbols mean?
+
+
+### Chris notes
+- Store LITTAB and SYMTAB as maps from the string to whatever value we need
+- 
