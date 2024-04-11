@@ -4,12 +4,12 @@
 
 //TODO: Flesh out
 void pass_1() {
-    checkForComments(/*first line, intermediate file*/);
+    //checkForComments(/*first line, intermediate file*/);
     //Find program name on START line
     //Set location counter to 0
     //Loop over lines in file
         //Set address based on value of location counter (starts at 0)
-        checkForComments(/*currentLine, intermediate file*/);
+        //checkForComments(/*currentLine, intermediate file*/);
         //check for symbol declarations (call calc_symtab)
         //check what type of instruction the line is
         instruction_formats(/*input_file, intermediate file*/);

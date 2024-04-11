@@ -4,7 +4,7 @@
 
 //? Should this loop over every line in the intermediate file?
 void pass_2() {
-    checkForComments(/*inputFile, outputFile*/);
+    //checkForComments(/*inputFile, outputFile*/);
     //figure out format type (reuse instruction_formats()?)
     //Figure out //!LEFT OFF HERE
     //call process_vars()
