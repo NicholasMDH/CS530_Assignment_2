@@ -43,9 +43,12 @@ What about the LITTAB?
 | 150           | Integer   | 4 bytes  | (Decimal, Hex, or whatever) |
 |"Hello, world!"| String    | (However many bytes this is) | 0000 |
 
+What do the "+" and "#" symbols mean?
+- The "+" symbol can show up in front of an instruction (Ex: +LDA). This indicates that LDA is an extended format instruction, AKA Format 4.
+- The "#" symbol can show up before the operand of an instruction (Ex: LDA #2000). This indicates immediate addressing mode, meaning that the operand of the instruction is interpreted as a constant value rather than a memory address
+
 ## Other Questions:
 - How to generate object code?
-- What do the "+" and "#" symbols mean?
 
 
 ### Chris notes
