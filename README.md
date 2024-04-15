@@ -33,9 +33,18 @@ What does it mean to process BYTE/WORD directives?
 1. The BYTE and WORD directives are used to allocate space in memory and define the initial values of data in the program. (Syntax Structure: "LABEL BYTE \<data\>") Note: BYTE also has flags to indicate data format. C = Character, X = Hexadecimal, B = Binary, D = Decimal, O = Octal
 2. When processing these directives: calculate the size of the data, reserve memory space, and initialize the allocated memory with the specified data values
 
+What about the LITTAB?
+1. Similar to the SYMTAB, the LITTAB holds literal values instead of symbols. Literals include things such as numeric constants and literal strings. (Ex: integers, floats, characters, strings).
+2. LITTABS can also be used to keep record of the size of the data, and its memory address.
+3. Example LITTAB:
+
+| Literal Value | Data Type | Size     | Memory Address              |
+| ------------- | --------- | -------- | --------------------------- |
+| 150           | Integer   | 4 bytes  | (Decimal, Hex, or whatever) |
+|"Hello, world!"| String    | (However many bytes this is) | 0000 |
+
 ## Other Questions:
 - How to generate object code?
-- What about the LITTAB? (Literal Tab)
 - What do the "+" and "#" symbols mean?
 
 
