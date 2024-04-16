@@ -17,6 +17,53 @@ void pass_1() {
         //write to the intermediate file
     //return intermediate_file
     return; //temporary
+
+    //Dylan's comments//
+    //Start the file read
+   //If "START" is found, save the value of the START operand as the starting address
+      //set the LOCCTR to that starting address
+      //write current line into intermediate file
+      //read next line
+         //end loop (if START)
+   //else LOCCTR is starting at 0  
+   
+   //while OPCODE != "END", do
+      //if not a comment line
+         //begin
+            //if there is a symbol/label
+               //begin
+                  //search SYMTAB for that label
+                  //if found
+                     //error (duplicate symbol)
+                  //else
+                     //insert (LABEL/LOCCTR) into SYMTAB
+               //end
+        
+           //search OPTAB for OPCODE
+           //if found
+              //add 3 to LOCCTR
+           //else if 'WORD'
+              //add 3 to LOCCTR
+           //else if 'RESW'
+              //add 3 * #[OPERAND] to LOCCTR  // #[OPERAND] == constant value attached to OPERAND
+           //else if 'RESB'
+              //add #[OPERAND] to LOCCTR
+           //else if 'BYTE'
+              //begin
+                 //find length of constant in bytes
+                 //add length to LOCCTR
+              //end (if BYTE)
+           //else
+              //error for invalid OPCODE
+        //end (if not a comment)
+     //write line to intermediate file
+     //read next line
+   //while loop END
+   
+   //write last line to intermediate file
+   //save (LOCCTR - starting address) as program length
+   //end of Pass 1
+
 }
 
 //I'm putting this function here because it's only used in pass 1
