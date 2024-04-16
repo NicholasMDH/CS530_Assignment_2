@@ -12,7 +12,7 @@ void pass_1() {
         //checkForComments(/*currentLine, intermediate file*/);
         //check for symbol declarations (call calc_symtab)
         //check what type of instruction the line is
-        instruction_formats(/*input_file, intermediate file*/);
+         instruction_formats(/*input_file, intermediate file*/);
         //increment location counter based on return value
         //write to the intermediate file
     //return intermediate_file
@@ -38,7 +38,7 @@ void pass_1() {
                   //else
                      //insert (LABEL/LOCCTR) into SYMTAB
                //end
-        
+
            //search OPTAB for OPCODE
            //if found
               //add 3 to LOCCTR
@@ -76,5 +76,4 @@ void instruction_formats() {
     //Check for WORDs and BYTEs
         //check for special case BYTEs (C,X,D)
     //return location counter value based on symbol size
-    
 }

@@ -1,6 +1,8 @@
 //This will hold all of our shared code and functions between both passes
 
-bool validate_input(int arguments, const char *argumentList[]); //return 0 if no issues, return 1 if issues
+#include <string>
+
+bool validate_input(std::string passedFile); //return 0 if no issues, return 1 if it has issues
 void pass_1();
 void pass_2();
 
