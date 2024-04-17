@@ -80,16 +80,7 @@ static const unordered_map<string, int> OPTAB = {
    {"WD", 0xDC}
 };
 
-//should we also sort them into their specific formats?
-static const unordered_set<string> format1 {
-   //format1 instructions
-};
-
-//format 2
-
-//format 3/4
-
 static const unordered_set<string> assemblerDirective {
-  "START", "END", "BYTE", "WORD", "RESB", "RESW"
-  //double check all the directives we are covering
+   "START", "END", "BYTE", "WORD", "RESB", "RESW"
+   //double check all the directives we are covering
 };
