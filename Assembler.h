@@ -14,5 +14,3 @@ void checkForComments();
 
 extern std::unordered_map<std::string, int> SYMTAB;
 extern std::unordered_map<std::string, int> LITTAB;
-extern std::ifstream inputFile;
-extern std::ofstream outputFile;

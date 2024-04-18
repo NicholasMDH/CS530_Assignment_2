@@ -5,12 +5,16 @@
 #include <fstream>
 #include <vector>
 
+//global variables
+std::ifstream inputFile;
+std::ofstream outputFile;
 
 //I'm putting these functions here because it's only used in pass 1
 void processLine(std::vector<std::string> &currentLine) {
+   currentLine.clear();
    std::string temp;
    //column sizes
-   int address_Column = 4,
+   static const int address_Column = 4,
       symbol_Column = 9,
       instruction_Column = 8,
       operand_Column = 20,
@@ -20,8 +24,8 @@ void processLine(std::vector<std::string> &currentLine) {
    //TODO: bounds/error checking?
    
    //get the first line
-   std::getline(inputFile, temp); //! why doesn't this increment!!!
-   std::cout << "temp variable" << temp << std::endl; //testing, this works
+   std::getline(inputFile, temp);
+   std::cout << "temp variable: " << temp << std::endl; //testing, this works
 
    //if it's a comment, just pass it as the current line
    if (temp[0] == '.') currentLine.push_back(temp);
@@ -38,9 +42,11 @@ void processLine(std::vector<std::string> &currentLine) {
 
    //testing, I want to see what's in currentLine
    for (int i = 0; i < currentLine.size(); i++) {
-      std::cout << "currentLine[" << std::to_string(i) << "]: " << currentLine[0][i] << std::endl;
+      std::cout << "currentLine[" << std::to_string(i) << "]: " << currentLine[i] << std::endl;
    }
 }
+
+//void outputToFile() //! LEFT OFF HERE, START WRITING WRITER FUNCTION
 
 //TODO: Flesh out
 int instruction_formats() {
@@ -58,7 +64,6 @@ int instruction_formats() {
 void pass_1(std::string sourceFile) {
    //open necessary files
    std::vector<std::string> currentLine;
-
    inputFile.exceptions(std::ifstream::failbit);
    inputFile.open(sourceFile);
 
@@ -66,10 +71,7 @@ void pass_1(std::string sourceFile) {
    outputFile.exceptions(std::ofstream::failbit);
    outputFile.open(outputFileName);
 
-   //pass the first line straight to the intermediate file if it's a comment
-   processLine(currentLine);
-   processLine(currentLine);
-   processLine(currentLine);
+   //TODO: test reader with writer
 
 
    //checkForComments(/*first line, intermediate file*/);
@@ -130,6 +132,6 @@ void pass_1(std::string sourceFile) {
    //write last line to intermediate file
    //save (LOCCTR - starting address) as program length
    //end of Pass 1
-   inputFile.close();
+   //inputFile.close(); //!
    return; //temporary
 }
