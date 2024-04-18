@@ -9,7 +9,7 @@
 //global variables
 std::ifstream inputFile;
 std::ofstream outputFile;
-bool extFormat;
+bool extFormat = false;
 int locctr = 0;
 
 //I'm putting these functions here because it's only used in pass 1
@@ -119,8 +119,29 @@ void pass_1(std::string sourceFile) {
    if (currentLine[1].find("START") != currentLine[1].npos){
 	   address = std::stoi(currentLine[2]);
 	   locctr = address;
-	   //outputToFile
+	   //outputToFile(currentLine); //uncomment when outputToFile is complete
+	   processLine(currentLine);
    }
+   else{
+	   locctr = 0;
+   }
+   
+   while(currentLine[1].find("END") == currentLine[1].npos){
+	   address = locctr;
+	   if (currentLine[0][0] != '.'){
+		   if (SYMTAB.find(currentLine[0]) == SYMTAB.end()){
+			   SYMTAB.emplace(currentLine[0], address);
+		   }
+		   else{
+			   //Duplicate symbol error
+		   }
+		   instruction_formats(currentLine);
+	   }
+	   //outputToFile(currentLine);
+	   processLine(currentLine);
+   }
+   
+   //processLine(currentLine);
 
 
 
