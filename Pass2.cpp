@@ -1,21 +1,12 @@
 //This function will hold the definitions for the functions required for pass 2 of the assembler
 
 #include "Assembler.h"
-#include "utils.h"
-
-// //global variables
-// std::ifstream inputFile;
-// std::ofstream outputFile;
-// bool extFormat = false;
-// int locctr = 0;
-// std::unordered_map<std::string, int> SYMTAB;
-// //column sizes
-// static const int address_Column = 4,
-//    symbol_Column = 9,
-//    instruction_Column = 8,
-//    operand_Column = 20,
-//    opcode_Column = 4,
-//    comment_Column = 20;
+#include "AppendixA.h"
+#include <fstream>
+#include <vector>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
 //We should pass the input file, symtab, and littab into Pass 2
 void pass_2(std::string sourceFile) {
@@ -34,7 +25,6 @@ void pass_2(std::string sourceFile) {
    outputFile << "Pass 2 has begun" << std::endl;
    //checkForComments(/*inputFile, outputFile*/);
    //figure out format type (reuse instruction_formats()?)
-   //Figure out //!LEFT OFF HERE
    //call process_vars()
    //call assembler_directives()
    //return output_file

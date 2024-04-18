@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-//TODO: Flesh out
+
 int main(int argc, const char *argv[]) {
     //Loop over all provided files, as long as the user actually provided files
     if (argc >= 2) {
@@ -34,15 +34,4 @@ int main(int argc, const char *argv[]) {
         std::cout << "No source file detected." << std::endl;
         return 1;
     }
-}
-
-//TODO: Flesh out
-bool validate_input(const std::string passedFile) {
-    //Check to make sure that the user inputted the correct type of file (.sic)
-    std::cout << "file extension: " + passedFile.substr(passedFile.length() - 4) << std::endl; //TESTING
-    if (".sic" != passedFile.substr(passedFile.length() - 4)) {
-        std::cout << "incompatible file extension, exiting program" << std::endl;
-        return 1;
-    }
-    return 0;
 }
