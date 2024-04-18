@@ -1,6 +1,5 @@
 .  SOURCE CODE FOR THE XE VERSION OF THE SIC FAMILY OF COMPUTER
 0    SUM       START   0
-0    SUM       START   0
 0    FIRST     LDX     #0
 4              LDA     #0
 4              +LDB    #TABLE2
@@ -11,12 +10,8 @@ c              ADD     TABLE2,X
 14             JLT     LOOP
 14             +STA    TOTAL
 18             RSUB                
-18   INPUT     BYTE    X'F1'
-18   INPUT2    BYTE    C'EOF'
-18   INPUT3    BYTE    1440
-1b   BRUH      WORD    4096
-1f   MYLIT     LDA     =C'EOF'
-22   COUNT     RESW    1
-1792 TABLE     RESW    2000
-2f02 TABLE2    RESW    2000
-2f05 TOTAL     RESW    1
+18   MYLIT     +LDA    =C'EOF'
+1b   COUNT     RESW    1
+178b TABLE     RESW    2000
+2efb TABLE2    RESW    2000
+2efe TOTAL     RESW    1

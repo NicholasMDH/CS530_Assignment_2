@@ -24,3 +24,4 @@ extern bool extFormat;
 extern int locctr;
 extern std::unordered_map<std::string, int> SYMTAB;
 extern const int address_Column, symbol_Column, instruction_Column, operand_Column, opcode_Column, comment_Column;
+extern int assemblerPass;

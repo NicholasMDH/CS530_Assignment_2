@@ -1,5 +1,3 @@
-//This function will hold the definitions for the functions required for pass 2 of the assembler
-
 #include "Assembler.h"
 #include "AppendixA.h"
 #include <fstream>
@@ -21,19 +19,28 @@ void pass_2(std::string sourceFile) {
    outputFile.exceptions(std::ofstream::failbit);
    outputFile.open(outputFileName);
 
-   std::cout << "In pass 2" << std::endl;
-   outputFile << "Pass 2 has begun" << std::endl;
-   //checkForComments(/*inputFile, outputFile*/);
-   //figure out format type (reuse instruction_formats()?)
-   //call process_vars()
-   //call assembler_directives()
-   //return output_file
-   return; //temporary
+   assemblerPass = 2;
+
+   std::cout << "In pass 2" << std::endl; // just for me :)
+
+   //*SETUP
+   //pass first comment line to temp file
+   processLine(currentLine);
+   outputToFile(currentLine);
+
+   //next line should be start
+   processLine(currentLine);
+   if (currentLine[2].find("START") != currentLine[2].npos){
+      outputToFile(currentLine);
+   }
+
+   //* Main loop
+
 
    //**Dylan's Commented Logic**
    //initialize variables
-      //ex: programCounter, operand, lineNumber
-      //int OPERAND = 0, lineNumber = 0, programCounter
+      //ex: programCounter, baseRegister
+      //int OPERAND = 0, programCounter
       //bool extendedFormat
    //read through intermediate file
    //if OPCODE = "START" and while OPCODE != "END"
@@ -63,24 +70,10 @@ void pass_2(std::string sourceFile) {
       //calculate object code for format 1/2
    //else if format 3 or 4
       //calculate object code accordingly
-   //          //Write OPCODE, object code, and operand to listing file
-   //       //else (no operand)
-   //          //if format 1 or 2
-   //             //calculate object code accordingly
-   //
-   //
-   //
-   //
-   //if OPCODE = "START" and While OPCODE != "END"
-      //Write opcode and operand to listing file
-      //if comment (== "."), write comment line to listing file
-      //if line has OPCODE, search OPTAB for OPCODE
-         //if there is a symbol in OPERAND field, then
-      //search SYMTAB for that symbol/OPERAND
-         //store symbol value as OPERAND address
-   //else
-      //store 0 as OPERAND address
-      //
+            //Write OPCODE, object code, and operand to listing file
+         //else (no operand)
+            //if format 1 or 2
+               //calculate object code accordingly 
 
    //housekeeping
    inputFile.close();

@@ -1,6 +1,3 @@
-// This will hold the main function of our assembler
-
-//Includes
 #include "Assembler.h"
 #include <iostream>
 #include <vector>

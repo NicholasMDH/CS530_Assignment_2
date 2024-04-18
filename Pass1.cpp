@@ -1,5 +1,3 @@
-//This will hold the function definitions for the functions needed in pass 1 of the assembler
-
 #include "Assembler.h"
 #include "AppendixA.h"
 #include <fstream>
@@ -19,30 +17,27 @@ void pass_1(std::string sourceFile) {
    outputFile.open(outputFileName);
 
    int address;
+   assemblerPass = 1;
 
-   //SETUP
-   //TODO: pass first comment line to temp file
+   //*SETUP
+   //pass first comment line to temp file
    processLine(currentLine);
    outputToFile(currentLine);
 
-   //get next line
-   std::cout << "testing" << std::endl;
+   //next line should be start
    processLine(currentLine);
-   outputToFile(currentLine);
-
    if (currentLine[1].find("START") != currentLine[1].npos){
       address = std::stoi(currentLine[2]);
       locctr = address;
       outputToFile(currentLine);
       processLine(currentLine);
-
    }
    else{
       locctr = 0;
    }
    //at this point, locctr is accurate (I think)
 
-   //MAIN LOOP
+   //*MAIN LOOP
    while(currentLine[1].find("END") == currentLine[1].npos){
       //SYMTAB STUFF
       address = locctr;
