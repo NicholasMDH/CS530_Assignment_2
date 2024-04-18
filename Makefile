@@ -5,4 +5,4 @@ asxe.o : main.cpp Pass1.cpp Pass2.cpp Assembler.h
 	g++ -g -c -Wall -std=c++11 main.cpp Pass1.cpp Pass2.cpp asxe.cpp
 
 clean:
-	rm *.o asxe
+	rm *.o asxe P2sample.temp

@@ -26,10 +26,8 @@ int main(int argc, const char *argv[]) {
             //validate input, exit gracefully if we encounter any errors
             if (validate_input(sourceFile)) return 1;
 
-            //TODO - from here onwards
-            //Create input and output file objects
             pass_1(sourceFile);
-            //call pass_2();
+            pass_2(sourceFile);
         }
         return 0;
     } else { //the user didn't supply a source file

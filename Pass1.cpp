@@ -15,24 +15,35 @@ std::ofstream outputFile;
 bool extFormat = false;
 int locctr = 0;
 std::unordered_map<std::string, int> SYMTAB;
+//column sizes
+static const int address_Column = 4,
+   symbol_Column = 9,
+   instruction_Column = 8,
+   operand_Column = 20,
+   opcode_Column = 4,
+   comment_Column = 20;
+
+
+void remove_whiteSpaces(std::vector<std::string> &currentLine) {
+   for (int i = 0; i < currentLine.size(); i++) {
+      int start = currentLine[i].find_first_not_of(" \t\n\r\f\v");
+      size_t end = currentLine[i].find_last_not_of(" \t\n\r\f\v");
+      if (start != currentLine[i].npos) { //only strip whitespaces if the line isn't blank
+         currentLine[i] = currentLine[i].substr(start, end - start + 1);
+      }
+   }
+}
 
 //I'm putting these functions here because it's only used in pass 1
 void processLine(std::vector<std::string> &currentLine) {
    currentLine.clear();
    std::string temp;
-   //column sizes
-   static const int address_Column = 4,
-      symbol_Column = 9,
-      instruction_Column = 8,
-      operand_Column = 20,
-      opcode_Column = 4,
-      comment_Column = 20;
-
+   
    //TODO: bounds/error checking?
    
    //get the first line
    std::getline(inputFile, temp);
-   std::cout << "temp variable: " << temp << std::endl; //testing, this works
+   std::cout << "temp variable: " << temp << std::endl; //!testing, this works
 
    //if it's a comment, just pass it as the current line
    if (temp[0] == '.') currentLine.push_back(temp);
@@ -47,29 +58,49 @@ void processLine(std::vector<std::string> &currentLine) {
       }
    }
 
-   //testing, I want to see what's in currentLine
+   //remove whitespaces
+   remove_whiteSpaces(currentLine);
+
+   //!testing, I want to see what's in currentLine
    for (int i = 0; i < currentLine.size(); i++) {
-      std::cout << "currentLine[" << std::to_string(i) << "]: " << currentLine[i] << std::endl;
+      std::cout << "currentLine[" << std::to_string(i) << "]:" << currentLine[i] << ":\n";
    }
 }
 
 //I want this to mirror processLine
 void outputToFile(std::vector<std::string> &currentLine) {
    //write comments straight to file
-   if (currentLine[0][0] == '.') outputFile << currentLine[0] << std::endl;
+   if (currentLine[0][0] == '.') {
+      outputFile << currentLine[0] << std::endl;
+      return;
+   }
 
-   std::stringstream ss;
-   ss << std::hex << locctr;
-   std::string hexAddr = ss.str();
-   outputFile << hexAddr << std::endl;
+   //calculate address field //!Fix to prepend zeroes!
+   outputFile << std::setw(address_Column) << std::left << std::hex << locctr;
+   
+   outputFile << " "; //buffer
 
-   //calculate address field
-   outputFile << std::hex << locctr << std::endl; //!JUST TESTING WITH THE ENDL
-   // fileToWrite.put(intToHex(((address & 0x0F00) >> 8)));
-   // fileToWrite.put(intToHex(((address & 0x00F0) >> 4)));
-   // fileToWrite.put(intToHex((address & 0x000F)));
+   //Symbols
+   outputFile << std::setw(symbol_Column) << std::left << currentLine[0];
+
+   //Extended format?
+   if (extFormat) {
+      outputFile << '+';
+   } else {
+      outputFile << ' ';
+   }
+
+   //Instructions
+   outputFile << std::setw(instruction_Column) << std::left << currentLine[1];
+
+   //Operand //TODO: Fix formatting
+   outputFile << currentLine[2];
+
+   //End the line
+   outputFile << std::endl;
 }
 
+//TODO: BYTE operators and handle END line
 void instruction_formats(std::vector<std::string> currentLine) {
    //Logic:
       //check if the instruction is extended format (+)
@@ -93,11 +124,6 @@ void instruction_formats(std::vector<std::string> currentLine) {
    }
    
    //currentLine[1] = currentLine[1].substr(1);
-   
-   //remove whitespaces
-   size_t start = currentLine[1].find_first_not_of(" \t\n\r\f\v");
-   size_t end = currentLine[1].find_last_not_of(" \t\n\r\f\v");
-   currentLine[1] = currentLine[1].substr(start, end - start + 1);
 
    if (AppendixA::OPTAB.find(currentLine[1]) != AppendixA::OPTAB.end()){ //! TESTING USED TO BE 1
       if (extFormat = true){
@@ -142,10 +168,12 @@ void pass_1(std::string sourceFile) {
    //SETUP
    //TODO: pass first comment line to temp file
    processLine(currentLine);
+   outputToFile(currentLine);
 
    //get next line
    std::cout << "testing" << std::endl;
    processLine(currentLine);
+   outputToFile(currentLine);
 
    if (currentLine[1].find("START") != currentLine[1].npos){
       address = std::stoi(currentLine[2]);
@@ -163,6 +191,7 @@ void pass_1(std::string sourceFile) {
    while(currentLine[1].find("END") == currentLine[1].npos){
       //SYMTAB STUFF
       address = locctr;
+      extFormat = false;
       if (currentLine[0][0] != '.'){
          if (SYMTAB.find(currentLine[0]) == SYMTAB.end()){
             SYMTAB.emplace(currentLine[0], address);
@@ -173,19 +202,12 @@ void pass_1(std::string sourceFile) {
       }
 
       //regular code processing
-      outputToFile(currentLine);
+      outputToFile(currentLine); //! testing
       processLine(currentLine);
-      //! call writer function
       //We call instruction_formats after calling the writer to keep locctr accurate
       instruction_formats(currentLine);
 
    }
-   
-   //processLine(currentLine);
-
-
-
-   //TODO: test reader with writer
    
 
    //checkForComments(/*first line, intermediate file*/);
@@ -248,5 +270,5 @@ void pass_1(std::string sourceFile) {
    //end of Pass 1
    inputFile.close();
    outputFile.close();
-   return; //temporary
+   return;
 }
