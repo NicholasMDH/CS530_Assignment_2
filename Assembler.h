@@ -1,3 +1,4 @@
+#pragma once
 //This will hold all of our shared code and functions between both passes
 
 #include <string>
@@ -14,3 +15,5 @@ void checkForComments();
 
 extern std::unordered_map<std::string, int> SYMTAB;
 extern std::unordered_map<std::string, int> LITTAB;
+extern std::ifstream inputFile;
+extern std::ofstream outputFile;

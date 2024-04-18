@@ -5,12 +5,16 @@
 #include "AppendixA.h"
 #include <fstream>
 #include <vector>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
 //global variables
 std::ifstream inputFile;
 std::ofstream outputFile;
 bool extFormat = false;
 int locctr = 0;
+std::unordered_map<std::string, int> SYMTAB;
 
 //I'm putting these functions here because it's only used in pass 1
 void processLine(std::vector<std::string> &currentLine) {
@@ -49,17 +53,32 @@ void processLine(std::vector<std::string> &currentLine) {
    }
 }
 
-//void outputToFile() //! LEFT OFF HERE, START WRITING WRITER FUNCTION
+//I want this to mirror processLine
+void outputToFile(std::vector<std::string> &currentLine) {
+   //write comments straight to file
+   if (currentLine[0][0] == '.') outputFile << currentLine[0] << std::endl;
 
-//TODO: Flesh out
-int instruction_formats(std::vector<std::string> currentLine) {
-   //check if the instruction is extended format (+)
-   //Figure out if the line is a format 1-4 command
-      //If it is, return the format type
-      //If it isn't, return false? (some sort of error type)
-   //Check for WORDs and BYTEs
-      //check for special case BYTEs (C,X,D)
-   //return location counter value based on symbol size
+   std::stringstream ss;
+   ss << std::hex << locctr;
+   std::string hexAddr = ss.str();
+   outputFile << hexAddr << std::endl;
+
+   //calculate address field
+   outputFile << std::hex << locctr << std::endl; //!JUST TESTING WITH THE ENDL
+   // fileToWrite.put(intToHex(((address & 0x0F00) >> 8)));
+   // fileToWrite.put(intToHex(((address & 0x00F0) >> 4)));
+   // fileToWrite.put(intToHex((address & 0x000F)));
+}
+
+void instruction_formats(std::vector<std::string> currentLine) {
+   //Logic:
+      //check if the instruction is extended format (+)
+      //Figure out if the line is a format 1-4 command
+         //If it is, return the format type
+         //If it isn't, return false? (some sort of error type)
+      //Check for WORDs and BYTEs
+         //check for special case BYTEs (C,X,D)
+      //return location counter value based on symbol size
    
    //int locctr = 0;
    
@@ -74,8 +93,13 @@ int instruction_formats(std::vector<std::string> currentLine) {
    }
    
    //currentLine[1] = currentLine[1].substr(1);
+   
+   //remove whitespaces
+   size_t start = currentLine[1].find_first_not_of(" \t\n\r\f\v");
+   size_t end = currentLine[1].find_last_not_of(" \t\n\r\f\v");
+   currentLine[1] = currentLine[1].substr(start, end - start + 1);
 
-   if (AppendixA::OPTAB.find(currentLine[1]) != AppendixA::OPTAB.end()){
+   if (AppendixA::OPTAB.find(currentLine[1]) != AppendixA::OPTAB.end()){ //! TESTING USED TO BE 1
       if (extFormat = true){
          locctr += 4;
       }
@@ -93,14 +117,13 @@ int instruction_formats(std::vector<std::string> currentLine) {
       locctr += 3;
    }
    else if (currentLine[1].compare("BYTE") == 0){
+      //TODO: Flesh out
       //if C, X, or D
    }
    else{
-      //nothing to do
+      std::cout << "THIS IS REALLY BAD AND NEEDS FIXING URGENTLY" << std::endl; //! THIS IS ALWAYS HAPPENING WE NEED TO FIX THIS
+      std::cout << "the current value of currentLine[1]:" << currentLine[1] << ": end " <<std::endl;
    }
-
-   return locctr;
-
 }
 
 //TODO: Flesh out
@@ -116,29 +139,46 @@ void pass_1(std::string sourceFile) {
 
    int address;
 
+   //SETUP
+   //TODO: pass first comment line to temp file
+   processLine(currentLine);
+
+   //get next line
+   std::cout << "testing" << std::endl;
+   processLine(currentLine);
+
    if (currentLine[1].find("START") != currentLine[1].npos){
-	   address = std::stoi(currentLine[2]);
-	   locctr = address;
-	   //outputToFile(currentLine); //uncomment when outputToFile is complete
-	   processLine(currentLine);
+      address = std::stoi(currentLine[2]);
+      locctr = address;
+      outputToFile(currentLine);
+      processLine(currentLine);
+
    }
    else{
-	   locctr = 0;
+      locctr = 0;
    }
-   
+   //at this point, locctr is accurate (I think)
+
+   //MAIN LOOP
    while(currentLine[1].find("END") == currentLine[1].npos){
-	   address = locctr;
-	   if (currentLine[0][0] != '.'){
-		   if (SYMTAB.find(currentLine[0]) == SYMTAB.end()){
-			   SYMTAB.emplace(currentLine[0], address);
-		   }
-		   else{
-			   //Duplicate symbol error
-		   }
-		   instruction_formats(currentLine);
-	   }
-	   //outputToFile(currentLine);
-	   processLine(currentLine);
+      //SYMTAB STUFF
+      address = locctr;
+      if (currentLine[0][0] != '.'){
+         if (SYMTAB.find(currentLine[0]) == SYMTAB.end()){
+            SYMTAB.emplace(currentLine[0], address);
+         }
+         else{
+            //TODO: Duplicate symbol error (duplicate symbol in SYMTAB)
+         }
+      }
+
+      //regular code processing
+      outputToFile(currentLine);
+      processLine(currentLine);
+      //! call writer function
+      //We call instruction_formats after calling the writer to keep locctr accurate
+      instruction_formats(currentLine);
+
    }
    
    //processLine(currentLine);
@@ -206,6 +246,7 @@ void pass_1(std::string sourceFile) {
    //write last line to intermediate file
    //save (locctr - starting address) as program length
    //end of Pass 1
-   //inputFile.close(); //!
+   inputFile.close();
+   outputFile.close();
    return; //temporary
 }
