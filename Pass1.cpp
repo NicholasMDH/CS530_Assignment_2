@@ -2,12 +2,15 @@
 
 #include "Assembler.h"
 #include "utils.h"
+#include "AppendixA.h"
 #include <fstream>
 #include <vector>
 
 //global variables
 std::ifstream inputFile;
 std::ofstream outputFile;
+bool extFormat;
+int locctr = 0;
 
 //I'm putting these functions here because it's only used in pass 1
 void processLine(std::vector<std::string> &currentLine) {
@@ -49,7 +52,7 @@ void processLine(std::vector<std::string> &currentLine) {
 //void outputToFile() //! LEFT OFF HERE, START WRITING WRITER FUNCTION
 
 //TODO: Flesh out
-int instruction_formats() {
+int instruction_formats(std::vector<std::string> currentLine) {
    //check if the instruction is extended format (+)
    //Figure out if the line is a format 1-4 command
       //If it is, return the format type
@@ -57,7 +60,47 @@ int instruction_formats() {
    //Check for WORDs and BYTEs
       //check for special case BYTEs (C,X,D)
    //return location counter value based on symbol size
-   return 0;
+   
+   //int locctr = 0;
+   
+   if (currentLine[1][0] == '+'){
+      extFormat = true;
+   }
+   else if (currentLine[1][0] == ' '){
+      //nothing to do
+   }
+   else{
+      //error throw?
+   }
+   
+   //currentLine[1] = currentLine[1].substr(1);
+
+   if (AppendixA::OPTAB.find(currentLine[1]) != AppendixA::OPTAB.end()){
+      if (extFormat = true){
+         locctr += 4;
+      }
+      else{
+         locctr += 3;
+      }
+   }
+   else if (currentLine[1].compare("RESW") == 0){
+      locctr += 3 * std::stoi(currentLine[2]);
+   }
+   else if (currentLine[1].compare("RESB") == 0){
+      locctr += std::stoi(currentLine[2]);
+   }
+   else if (currentLine[1].compare("WORD") == 0){
+      locctr += 3;
+   }
+   else if (currentLine[1].compare("BYTE") == 0){
+      //if C, X, or D
+   }
+   else{
+      //nothing to do
+   }
+
+   return locctr;
+
 }
 
 //TODO: Flesh out
@@ -71,8 +114,18 @@ void pass_1(std::string sourceFile) {
    outputFile.exceptions(std::ofstream::failbit);
    outputFile.open(outputFileName);
 
-   //TODO: test reader with writer
+   int address;
 
+   if (currentLine[1].find("START") != currentLine[1].npos){
+	   address = std::stoi(currentLine[2]);
+	   locctr = address;
+	   //outputToFile
+   }
+
+
+
+   //TODO: test reader with writer
+   
 
    //checkForComments(/*first line, intermediate file*/);
    //Find program name on START line
@@ -90,11 +143,11 @@ void pass_1(std::string sourceFile) {
 //Dylan's comments//
       //Start the file read
    //If "START" is found, save the value of the START operand as the starting address
-      //set the LOCCTR to that starting address
+      //set the locctr to that starting address
       //write current line into intermediate file
       //read next line
          //end loop (if START)
-   //else LOCCTR is starting at 0  
+   //else locctr is starting at 0  
 
    //while OPCODE != "END", do
       //if not a comment line
@@ -105,22 +158,22 @@ void pass_1(std::string sourceFile) {
                   //if found
                      //error (duplicate symbol)
                   //else
-                     //insert (LABEL/LOCCTR) into SYMTAB
+                     //insert (LABEL/locctr) into SYMTAB
                //end
 
             //search OPTAB for OPCODE
             //if found
-               //add 3 to LOCCTR
+               //add 3 to locctr
             //else if 'WORD'
-               //add 3 to LOCCTR
+               //add 3 to locctr
             //else if 'RESW'
-               //add 3 * #[OPERAND] to LOCCTR  // #[OPERAND] == constant value attached to OPERAND
+               //add 3 * #[OPERAND] to locctr  // #[OPERAND] == constant value attached to OPERAND
             //else if 'RESB'
-               //add #[OPERAND] to LOCCTR
+               //add #[OPERAND] to locctr
             //else if 'BYTE'
                //begin
                   //find length of constant in bytes
-                  //add length to LOCCTR
+                  //add length to locctr
                //end (if BYTE)
             //else
                //error for invalid OPCODE
@@ -130,7 +183,7 @@ void pass_1(std::string sourceFile) {
    //while loop END
 
    //write last line to intermediate file
-   //save (LOCCTR - starting address) as program length
+   //save (locctr - starting address) as program length
    //end of Pass 1
    //inputFile.close(); //!
    return; //temporary
