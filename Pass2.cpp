@@ -46,6 +46,11 @@ void pass_2(std::string sourceFile) {
       std::cout << "end of loop" << std::endl;
    }
 
+   // //process END directive
+   // processLine(currentLine);
+   // assemble_object(currentLine);
+   // outputToFile(currentLine);
+
    //housekeeping
    inputFile.close();
    outputFile.close();

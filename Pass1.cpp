@@ -58,6 +58,13 @@ void pass_1(std::string sourceFile) {
       instruction_formats(currentLine);
 
    }
+
+   // //process END directive
+   // outputToFile(currentLine);
+   // processLine(currentLine);
+   // //We call instruction_formats after calling the writer to keep locctr accurate
+   // instruction_formats(currentLine);
+
    
    inputFile.close();
    outputFile.close();

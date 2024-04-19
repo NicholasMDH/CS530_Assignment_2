@@ -152,7 +152,7 @@ void outputToFile(std::vector<std::string> &currentLine) {
 
         //Assembled object code
         //! THIS (OBJECT CODE) NEEDS TO BE CONVERTED TO HEX
-        if (objectCode) outputFile << std::setw(opcode_Column) << std::left << currentLine[4];
+        if (objectCode) outputFile << std::setw(opcode_Column) << std::left << std::hex << std::stoi(currentLine[4]);
         std::cout << "line 148" << std::endl;
     }
 
@@ -207,9 +207,10 @@ void assemble_object(std::vector<std::string> &currentLine) {
         return;
     }
     objectCode = 0;
+    extFormat = false;
     std::cout << "is " << currentLine[2] << " in our OPTAB? : "; //! TESTING
     //is this command in our appendix A?
-    if (AppendixA::OPTAB.find(currentLine[2]) != AppendixA::OPTAB.end()) {
+    if (AppendixA::OPTAB.find(currentLine[2]) != AppendixA::OPTAB.end() || AppendixA::OPTAB.find(currentLine[2].substr(1)) != AppendixA::OPTAB.end()) {
         std::cout << "yes!" << std::endl; //! TESTING
         //set program counter & first 1 1/2 bytes
         programCounter = std::stoi(currentLine[0], nullptr, 16) + 3;
@@ -218,40 +219,38 @@ void assemble_object(std::vector<std::string> &currentLine) {
             opni = AppendixA::OPTAB.at(currentLine[2].substr(1));
             programCounter += 1; //one more byte for format 4
             xbpe += 1;
-            extFormat = true;
+            //extFormat = true;
         } else opni = AppendixA::OPTAB.at(currentLine[2]);
         
         //find symbols in SYMTAB
         if (SYMTAB.find(currentLine[3].substr(0, currentLine[3].find_first_of(", "))) != SYMTAB.end()) {
             //set displacement equal to the location of the symbol in memory
             displacement = SYMTAB.at(currentLine[3].substr(0, currentLine[3].find_first_of(", ")));
+        }
 
-            //if PC relative
-            if (-2048 <= (displacement - programCounter) <= 2047) {
-                std::cout << "PC Relative Addressing" << std::endl;
-                displacement -= programCounter;
-                xbpe += 2;
-            }
-            std::cout << "line 235" << std::endl;
-            std::cout << "CurrentLine[3]: " << currentLine[3] << std::endl;
-            std::cout << "CurrentLine[3][0]: " << currentLine[3][0] << std::endl;
-            //TODO: base relative
+        //if PC relative
+        if (-2048 <= (displacement - programCounter) <= 2047) {
+            std::cout << "PC Relative Addressing" << std::endl;
+            displacement -= programCounter;
+            xbpe += 2;
+        }
 
-            //Other addressing modes
-            if (currentLine[3][0] == '#') {
-                std::cout << "Immediate Addressing" << std::endl;
-                opni += 1;
-            } else if (currentLine[3][0] == '@') {
-                std::cout << "Indirect Addressing" << std::endl;
-                opni += 2;
-            } else if (currentLine[3].substr(currentLine[3].size()-2).compare(",X") == 0) {
-                std::cout << "Indexed Addressing" << std::endl;
-                opni += 8;
-            }
-            else {
-                std::cout << "Direct Addressing" << std::endl;
-                opni += 3;
-            }
+        //TODO: base relative
+
+        //Other addressing modes
+        if (currentLine[3][0] == '#') {
+            std::cout << "Immediate Addressing" << std::endl;
+            opni += 1;
+        } else if (currentLine[3][0] == '@') {
+            std::cout << "Indirect Addressing" << std::endl;
+            opni += 2;
+        } else if (currentLine[3].substr(currentLine[3].size()-2).compare(",X") == 0) {
+            std::cout << "Indexed Addressing" << std::endl;
+            opni += 8;
+        }
+        else {
+            std::cout << "Direct Addressing" << std::endl;
+            opni += 3;
         }
 
         //assign values to objectCode
