@@ -16,12 +16,13 @@ void remove_whiteSpaces(std::vector<std::string> &currentLine);
 void processLine(std::vector<std::string> &currentLine);
 void outputToFile(std::vector<std::string> &currentLine);
 void instruction_formats(std::vector<std::string> currentLine);
+void assemble_object(std::vector<std::string> &currentLine);
 
 //global variables
 extern std::ifstream inputFile;
 extern std::ofstream outputFile;
 extern bool extFormat;
-extern int locctr;
+extern int locctr, programCounter, baseRegister, opni, xbpe, displacement, objectCode;
 extern std::unordered_map<std::string, int> SYMTAB;
 extern const int address_Column, symbol_Column, instruction_Column, operand_Column, opcode_Column, comment_Column;
 extern int assemblerPass;

@@ -35,7 +35,7 @@ namespace AppendixA{
       {"HIO", 0xF4},
       {"J", 0x3C},
       {"JEQ", 0x30},
-     {"JGT", 0x34},
+      {"JGT", 0x34},
       {"JLT", 0x38},
       {"JSUB", 0x48},
       {"LDA", 0x00},
