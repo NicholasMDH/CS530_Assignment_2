@@ -36,7 +36,7 @@ void pass_2(std::string sourceFile) {
 
    //* Main loop 
    //! currently crashes because pass1 doesn't write the "END" directive!
-   while(currentLine[1].find("END") == currentLine[2].npos) {
+   while(currentLine[2].find("END") == currentLine[2].npos) {
       std::cout << "processLine" << std::endl;
       processLine(currentLine);
       std::cout << "assemble_object" << std::endl;
@@ -45,11 +45,6 @@ void pass_2(std::string sourceFile) {
       outputToFile(currentLine);
       std::cout << "end of loop" << std::endl;
    }
-
-   // //process END directive
-   // processLine(currentLine);
-   // assemble_object(currentLine);
-   // outputToFile(currentLine);
 
    //housekeeping
    inputFile.close();
