@@ -1,4 +1,9 @@
-//this file will just be appendix A
+/*
+Team:
+Nicholas Dibello-Hitta, cssc4049, RedID: 828490930
+Dylan Agoncillo, cssc4051, RedID: 824340550
+
+*/
 
 #include <unordered_map>
 #include <unordered_set>

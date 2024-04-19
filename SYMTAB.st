@@ -1,0 +1,9 @@
+symbol,address
+FIRST,0
+         ,4
+LOOP,8
+MYLIT,24
+COUNT,27
+TABLE,6027
+TABLE2,12027
+TOTAL,12030

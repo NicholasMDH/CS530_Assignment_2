@@ -1,3 +1,10 @@
+/*
+Team:
+Nicholas Dibello-Hitta, cssc4049, RedID: 828490930
+Dylan Agoncillo, cssc4051, RedID: 824340550
+
+*/
+
 #pragma once
 //This will hold all of our shared code and functions between both passes
 

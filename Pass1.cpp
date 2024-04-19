@@ -1,3 +1,10 @@
+/*
+Team:
+Nicholas Dibello-Hitta, cssc4049, RedID: 828490930
+Dylan Agoncillo, cssc4051, RedID: 824340550
+
+*/
+
 #include "Assembler.h"
 #include "AppendixA.h"
 #include <fstream>
@@ -15,6 +22,11 @@ void pass_1(std::string sourceFile) {
    std::string outputFileName = sourceFile.substr(0, sourceFile.length() - 4) + ".temp";
    outputFile.exceptions(std::ofstream::failbit);
    outputFile.open(outputFileName);
+
+   std::ofstream symFile;
+   symFile.exceptions(std::ofstream::failbit);
+   symFile.open("SYMTAB.st");
+   symFile << "symbol,address" << std::endl;
 
    int address;
    assemblerPass = 1;
@@ -45,9 +57,10 @@ void pass_1(std::string sourceFile) {
       if (currentLine[0][0] != '.'){
          if (SYMTAB.find(currentLine[0]) == SYMTAB.end()){
             SYMTAB.emplace(currentLine[0], address);
+            symFile << currentLine[0] << "," << std::to_string(address) << std::endl;
          }
          else{
-            //TODO: Duplicate symbol error (duplicate symbol in SYMTAB)
+            //Duplicate symbol error (duplicate symbol in SYMTAB)
          }
       }
 
@@ -66,5 +79,6 @@ void pass_1(std::string sourceFile) {
    
    inputFile.close();
    outputFile.close();
+   symFile.close();
    return;
 }

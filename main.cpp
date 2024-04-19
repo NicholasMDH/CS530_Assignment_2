@@ -1,3 +1,10 @@
+/*
+Team:
+Nicholas Dibello-Hitta, cssc4049, RedID: 828490930
+Dylan Agoncillo, cssc4051, RedID: 824340550
+
+*/
+
 #include "Assembler.h"
 #include <iostream>
 #include <vector>

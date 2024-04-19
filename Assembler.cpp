@@ -1,3 +1,10 @@
+/*
+Team:
+Nicholas Dibello-Hitta, cssc4049, RedID: 828490930
+Dylan Agoncillo, cssc4051, RedID: 824340550
+
+*/
+
 #include "Assembler.h"
 #include "AppendixA.h"
 #include <fstream>
@@ -54,7 +61,7 @@ void processLine(std::vector<std::string> &currentLine) {
     std::cout << "Line 54" << std::endl;
     //get the first line
     std::getline(inputFile, temp);
-    std::cout << "temp variable: " << temp << std::endl; //!testing, this works
+    std::cout << "temp variable: " << temp << std::endl;
     std::cout << "assemblerPass: " << std::to_string(assemblerPass) << std::endl;
 
     //if it's a comment, just pass it as the current line
@@ -82,14 +89,12 @@ void processLine(std::vector<std::string> &currentLine) {
     //remove whitespaces
     remove_whiteSpaces(currentLine);
 
-    //!testing, I want to see what's in currentLine
     for (int i = 0; i < currentLine.size(); i++) {
         std::cout << "currentLine[" << std::to_string(i) << "]:" << currentLine[i] << ":\n";
     }
 }
 
 //I want this to mirror processLine
-//TODO: to write object code to output file (convert from string)
 void outputToFile(std::vector<std::string> &currentLine) {
     //write comments straight to file
     if (currentLine[0][0] == '.') {
@@ -98,7 +103,7 @@ void outputToFile(std::vector<std::string> &currentLine) {
     }
 
     if (assemblerPass == 1) {
-        //calculate address field //!Fix to prepend zeroes!
+        //calculate address field
         outputFile << std::setw(address_Column) << std::left << std::hex << locctr;
         
         //buffer
@@ -117,11 +122,11 @@ void outputToFile(std::vector<std::string> &currentLine) {
         //Instructions
         outputFile << std::setw(instruction_Column) << std::left << currentLine[1];
 
-        //Operand //TODO: Fix formatting
+        //Operand
         outputFile << currentLine[2];
     }
     else if (assemblerPass == 2) {
-        //calculate address field //!Fix to prepend zeroes!
+        //calculate address field 
         outputFile << std::setw(address_Column) << std::left << std::hex << currentLine[0];
         
         //buffer
@@ -140,18 +145,16 @@ void outputToFile(std::vector<std::string> &currentLine) {
         //Instructions
         outputFile << std::setw(instruction_Column) << std::left << currentLine[2];
 
-        //Operand //TODO: Fix formatting for # and =
+        //Operand
         outputFile << std::setw(operand_Column) << std::left << currentLine[3];
 
-        //!testing, I want to see what's in currentLine
-        std::cout << "printing out the value of currentLine again in outputToFile" << std::endl;
-        for (int i = 0; i < currentLine.size(); i++) {
-            std::cout << "currentLine[" << std::to_string(i) << "]:" << currentLine[i] << ":\n";
-        }
+        // std::cout << "printing out the value of currentLine again in outputToFile" << std::endl;
+        // for (int i = 0; i < currentLine.size(); i++) {
+        //     std::cout << "currentLine[" << std::to_string(i) << "]:" << currentLine[i] << ":\n";
+        // }
         std::cout << "testing" << std::endl;
 
         //Assembled object code
-        //! THIS (OBJECT CODE) NEEDS TO BE CONVERTED TO HEX
         if (objectCode) outputFile << std::setw(opcode_Column) << std::left << std::hex << std::stoi(currentLine[4]);
         std::cout << "line 148" << std::endl;
     }
@@ -160,7 +163,6 @@ void outputToFile(std::vector<std::string> &currentLine) {
     outputFile << std::endl;
 }
 
-//TODO: BYTE operators and handle END line
 //This figure out the format of a given instruction
 void instruction_formats(std::vector<std::string> currentLine) {
 
@@ -192,11 +194,9 @@ void instruction_formats(std::vector<std::string> currentLine) {
         locctr += 3;
     }
     else if (currentLine[1].compare("BYTE") == 0){
-        //TODO: Flesh out
         //if C, X, or D
     }
     else{
-        std::cout << "THIS IS REALLY BAD AND NEEDS FIXING URGENTLY" << std::endl; //! this happens on the last line
         std::cout << "the current value of currentLine[1]:" << currentLine[1] << ": end " <<std::endl;
     }
 }
@@ -208,10 +208,10 @@ void assemble_object(std::vector<std::string> &currentLine) {
     }
     objectCode = 0;
     extFormat = false;
-    std::cout << "is " << currentLine[2] << " in our OPTAB? : "; //! TESTING
+    std::cout << "is " << currentLine[2] << " in our OPTAB? : ";
     //is this command in our appendix A?
     if (AppendixA::OPTAB.find(currentLine[2]) != AppendixA::OPTAB.end() || AppendixA::OPTAB.find(currentLine[2].substr(1)) != AppendixA::OPTAB.end()) {
-        std::cout << "yes!" << std::endl; //! TESTING
+        std::cout << "yes!" << std::endl;
         //set program counter & first 1 1/2 bytes
         programCounter = std::stoi(currentLine[0], nullptr, 16) + 3;
         xbpe = 0;
@@ -234,8 +234,6 @@ void assemble_object(std::vector<std::string> &currentLine) {
             displacement -= programCounter;
             xbpe += 2;
         }
-
-        //TODO: base relative
 
         //Other addressing modes
         if (currentLine[3][0] == '#') {
@@ -270,16 +268,9 @@ void assemble_object(std::vector<std::string> &currentLine) {
     }
     else { //it's an assembler directive
         std::cout << " NO :(" << std::endl;
-        //TODO:
     }
 
     //append assembled code to currentLine
     std::cout << "objectCode for line " << currentLine[0] << " is: " << std::to_string(objectCode) << std::endl;
     currentLine.push_back(std::to_string(objectCode));
-    
-    //! TESTING
-    //!testing, I want to see what's in currentLine
-    for (int i = 0; i < currentLine.size(); i++) {
-        std::cout << "currentLine[" << std::to_string(i) << "]:" << currentLine[i] << ":\n";
-    }
 }

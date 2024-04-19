@@ -1,3 +1,10 @@
+/*
+Team:
+Nicholas Dibello-Hitta, cssc4049, RedID: 828490930
+Dylan Agoncillo, cssc4051, RedID: 824340550
+
+*/
+
 #include "Assembler.h"
 #include "AppendixA.h"
 #include <fstream>
@@ -35,7 +42,6 @@ void pass_2(std::string sourceFile) {
    }
 
    //* Main loop 
-   //! currently crashes because pass1 doesn't write the "END" directive!
    while(currentLine[2].find("END") == currentLine[2].npos) {
       std::cout << "processLine" << std::endl;
       processLine(currentLine);
